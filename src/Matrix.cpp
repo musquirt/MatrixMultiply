@@ -1,22 +1,33 @@
-#include "Matrix.hpp"
+#define DEFAULT_NUM_ROWS 3
+#define DEFAULT_NUM_COLS 3
 
-/* Default constructor uses DEFAULT_NUM for rows, cols */
-Matrix::Matrix() {
-	rows = new double(DEFAULT_NUM_ROWS);
-	cols = new double(DEFAULT_NUM_COLS);
-}
+class Matrix {
+public:
+	int tid;
+	int num_threads;
+	int n;
+	int m;
+	int q;
+	static double *a;
+	static double *b;
+	static double *c;
+	
+	Matrix(int t, int num, int m, int n, int q) : tid(t), num_threads(num), n(n), m(m), q(q) {
+	
+	}
+	
+	static void setA(double* d) {
+		a = d;
+	}
+	static void setB(double* d) {
+		b = d;
+	}
+	static void setC(double* d) {
+		c = d;
+	}
+};
 
-Matrix::Matrix(int num_rows, int num_cols) {
-	rows = new double(num_rows);
-	cols = new double(num_cols);
-}
-
-Matrix::~Matrix() {
-	delete rows;
-	delete cols;
-}
-
-double Matrix::multiply() {
-	return 0.0;
-}
+double *Matrix::a;
+double *Matrix::b;
+double *Matrix::c;
 
