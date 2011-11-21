@@ -11,6 +11,7 @@ public:
 	static double *a;
 	static double *b;
 	static double *c;
+	static long int n_by_t;
 	
 	Matrix(int t, int num, int m, int n, int q) : tid(t), num_threads(num), n(n), m(m), q(q) {
 	
@@ -30,4 +31,5 @@ public:
 double *Matrix::a;
 double *Matrix::b;
 double *Matrix::c;
+long int Matrix::n_by_t;
 
