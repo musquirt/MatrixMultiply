@@ -8,11 +8,11 @@
 
 using namespace std;
 
-#define ROWS_1 10
-#define COLS_1 10
+#define ROWS_1 50
+#define COLS_1 500
 #define ROWS_2 COLS_1
-#define COLS_2 10
-#define NUM_THREADS  8
+#define COLS_2 500
+#define NUM_THREADS  10
 
 void fillIdent(double *a, int n, double v=1);
 void fillIncr(double *a, int n);
@@ -42,8 +42,8 @@ int main(int argc, char** argv) {
 	double *b = (double *)malloc(rows_b*cols_b * sizeof(double));
 	double *c = (double *)malloc(rows_a*cols_b * sizeof(double));
 	
-	fillIdent(a, rows_a*cols_a);
-	fillIdent(b, rows_b*cols_b, 1);
+	fillIncr(a, rows_a*cols_a);
+	fillIncr(b, rows_b*cols_b);
 	fillIdent(c, rows_a*cols_b, 0);
 	
 	pthread_t threads[n_threads];
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 	Matrix::setA(a);
 	Matrix::setB(b);
 	Matrix::setC(c);
-	Matrix::n_by_t = n_threads * rows_a;
+	Matrix::n_by_t = n_threads * cols_a; // Fixed
 	
 	list< Matrix> m;
 	
@@ -125,11 +125,15 @@ void* multiply(void* arg) {
 		for (int j=0; j<m.q; j++) {
 			double sum = 0;
 			for (int k=0; k<m.n; k++) {
-				sum += Matrix::a[i+k]*Matrix::b[j+k*m.n];
+				sum += Matrix::a[i+k]*Matrix::b[j+k*m.q]; // Fixed
+				//cout << i <<", " << j << ", " << k << ", " << k*m.q << ": " << Matrix::a[i+k] << " * " << Matrix::b[j+k*m.q] << endl;
 			}
-			Matrix::c[i+j] = sum;
+			Matrix::c[i/Matrix::n_by_t+1+j] = sum; // Fixed
+			//cout << sum << " ";
+			//cout << endl;
 		}
+		//cout << endl;
 	} 
-	
+	//cout << endl;
 }
 
