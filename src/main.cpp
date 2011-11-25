@@ -170,6 +170,10 @@ int main(int argc, char** argv) {
 	printMatrix(c, rows_a, cols_b);
 	#endif
 	
+	free(a);
+	free(b);
+	free(c);
+	
 	return 0;
 }
 

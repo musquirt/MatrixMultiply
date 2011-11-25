@@ -4,7 +4,7 @@
 class Matrix {
 public:
 	int tid;
-	int num_threads;
+	static long int num_threads;
 	int n;
 	int m;
 	int q;
@@ -13,7 +13,7 @@ public:
 	static double *c;
 	static long int n_by_t;
 	
-	Matrix(int t, int num, int m, int n, int q) : tid(t), num_threads(num), n(n), m(m), q(q) {
+	Matrix(int t, int m, int n, int q) : tid(t), n(n), m(m), q(q) {
 	
 	}
 	
@@ -32,4 +32,5 @@ double *Matrix::a;
 double *Matrix::b;
 double *Matrix::c;
 long int Matrix::n_by_t;
+long int Matrix::num_threads;
 
