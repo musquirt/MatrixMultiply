@@ -10,11 +10,11 @@
 
 using namespace std;
 
-#define ROWS_1 3
-#define COLS_1 4
+#define ROWS_1 11
+#define COLS_1 5
 #define ROWS_2 COLS_1
-#define COLS_2 3
-#define NUM_THREADS  4
+#define COLS_2 6
+#define NUM_THREADS  1
 
 void fillIdent(double *a, int n, double v=1);
 void fillIncr(double *a, int n, int startVal=0);
@@ -179,16 +179,17 @@ int main(int argc, char** argv) {
 
 void* multiply(void* arg) {
 	Matrix m = *((Matrix*) arg);
+	int index = 0;
 	for (int i=m.tid*m.n; i<m.m*m.n; i+=Matrix::n_by_t) {
 		for (int j=0; j<m.q; j++) {
 			double sum = 0;
 			for (int k=0; k<m.n; k++) {
 				sum += Matrix::a[i+k]*Matrix::b[j+k*m.q];
 			}
-			stringstream out;
-			out << i/Matrix::num_threads*m.q + j << " " << m.m*m.q << endl;
-			cout << out.str();
-			Matrix::c[i/Matrix::num_threads*m.q + j] = sum;
+			//stringstream out;
+			//out << i/Matrix::num_threads*m.q + j << " " << m.m*m.q << endl;
+			//cout << out.str();
+			Matrix::c[index++] = sum;
 		}
 	} 
 }
