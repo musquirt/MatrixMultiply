@@ -2,3 +2,5 @@ Mutli-threaded matrix mutilply application using C++ created for ECE462
 
                             Larry Price
                             Tom Pollard
+                            
+Uses pthread to split up the multiplication of task of multiplying two matrices. Multi-threading is slower for smaller matrices, but much much faster for larger matrices.
