@@ -14,7 +14,7 @@ using namespace std;
 #define COLS_1 5
 #define ROWS_2 COLS_1
 #define COLS_2 6
-#define NUM_THREADS  1
+#define NUM_THREADS  8
 
 void fillIdent(double *a, int n, double v=1);
 void fillIncr(double *a, int n, int startVal=0);
@@ -74,7 +74,15 @@ bool getCommandLineOptions(int argc, char** argv, int &rows_a, int &rows_b, int 
 				return false;
 			}
 		} else if (arg == "-h" || arg == "-help") {
-			
+			cout << "Multi-Threaded Matrix Multiply" << endl;
+			cout << "Options:" << endl;
+			cout << "-a rows_a [cols_a]: Define the dimensions of the first matrix to be multplied. If only one dimension is given, the matrix is assumed square." << endl;
+			cout << "-b rows_b [cols_b]: Define the dimensions of the second matrix to be multplied. If only one dimension is given, the matrix is assumed square." << endl;
+			cout << "-t num_threads: Define the number of threads to utilize. If this number is greater than the number of rows in matrix A, the number of threads will drop to that number of rows." << endl;
+			cout << "-rand: Entries in the matrices will be random floating point numbers." << endl;
+			cout << "-ident num: Entries in the matrices will all be num." << endl;
+			cout << "-incr start: Entries in the matrices will be increasing starting at start." << endl;
+			cout << "-h: display this message" << endl;
 			return false;
 		} else if (arg == "-t") {
 			if (i+1<argc) {
@@ -179,17 +187,13 @@ int main(int argc, char** argv) {
 
 void* multiply(void* arg) {
 	Matrix m = *((Matrix*) arg);
-	int index = 0;
 	for (int i=m.tid*m.n; i<m.m*m.n; i+=Matrix::n_by_t) {
 		for (int j=0; j<m.q; j++) {
 			double sum = 0;
 			for (int k=0; k<m.n; k++) {
 				sum += Matrix::a[i+k]*Matrix::b[j+k*m.q];
 			}
-			//stringstream out;
-			//out << i/Matrix::num_threads*m.q + j << " " << m.m*m.q << endl;
-			//cout << out.str();
-			Matrix::c[index++] = sum;
+			Matrix::c[i*m.q/m.n+j] = sum;
 		}
 	} 
 }
