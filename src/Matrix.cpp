@@ -1,3 +1,6 @@
+#ifndef MATRIX_CPP
+#define MATRIX_CPP
+
 #define DEFAULT_NUM_ROWS 3
 #define DEFAULT_NUM_COLS 3
 
@@ -33,4 +36,6 @@ double *Matrix::b;
 double *Matrix::c;
 long int Matrix::n_by_t;
 long int Matrix::num_threads;
+
+#endif
 

@@ -24,3 +24,7 @@ comp_time :
 	@echo "Last compiled on: " >> $(debug_file)
 	@date >> $(debug_file)
 
+check : main comp_time
+	@echo "Running tests..."
+	@python test/demo.py
+
